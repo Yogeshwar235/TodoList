@@ -35,17 +35,17 @@
 	<div class="container">
 		<div class="page-header" id="banner">
 			<div class="row">
-			  <div class="col-lg-3 col-md-7 col-sm-6">
+			  <div class="col col-lg-3 col-md-7 col-sm-6 col-xs-6">
 			    <h1>TodoApp</h1>
 			    <p class="lead">The brave and the blue</p>
 			  </div>
 	        </div> 
 	        <div class="row">
-	          	<div class="col-lg-3 col-md-3 col-sm-4">
+	          	<div class="col col-lg-3 col-md-3 col-sm-4 col-xs-4">
 		            <div class="list-group table-of-contents nav nav-tabs">
 					</div>
 	        	</div>
-	        	<div class="col-lg-6">
+	        	<div class="col col-lg-6 col-md-6 col-sm-8 col-xs-8">
 					<div id="myitemset" class="tab-content">
 	            	</div>
 				</div>
@@ -62,7 +62,7 @@
 	              <form class="form-horizontal">
 						<fieldset>
 							<legend>Item</legend>
-                            <div class="form-group" id="id_col">
+                            <div class="form-group hidden" id="id_col">
 							  <label class="col-lg-2 control-label" for="idField">Id</label>
 							  <div class="col-lg-10">
 							  	<input class="form-control" id="idField" type="text">
@@ -104,12 +104,12 @@
 	        </div>
 	    </div>
 	</div>
-<!--     <script>
+    <script>
         window.drf = {
           csrfHeaderName: "X-CSRFTOKEN",
           csrfCookieName: "csrftoken"
         };
-    </script> -->
+    </script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="{% static 'custom.js' %}"></script>

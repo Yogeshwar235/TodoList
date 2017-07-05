@@ -1,6 +1,6 @@
 .list-group.table-of-contents{
 	overflow: scroll;
-	height: 25em;
+	max-height: 25em;
 }
 .list-group.table-of-contents::-webkit-scrollbar {
 	display: none;

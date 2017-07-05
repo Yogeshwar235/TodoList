@@ -152,26 +152,32 @@ $('body').on('click','#create_item',(item)=>{
 
 $('body').on('click','#update_item',(item)=>{
     parent_id = $(".tab-pane.fade.active.in").prop('id').split('-')[1]
+    id = $("#id_col > div > input").val()
     name = $("#name_col > div > input").val()
     description = $("#desc_col > div > textarea").val()
     completed = $("#check_col > div > input").prop('checked')
     due_date = $("#date_col > div > div > input").val()
-    item = {'name':name,'description':description,'completed':completed,'due_date':due_date}
-    $.ajax("api/lists/"+parent_id+"/items/",{
-        type: "UPDATE",
+    item = {'id':id,'name':name,'description':description,'completed':completed,'due_date':due_date}
+    console.log(JSON.stringify(item))
+    $.ajax("api/lists/"+parent_id+"/items/"+id+"/",{
+        type: "PUT",
         data: item,
         success: function(result){
             load_lists()
+            console.log("parent - "+parent_id)
+            // $('#list-'+parent_id).toggleClass('active in')//<--not working
             $(".modal-footer").html("")
             $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_item">Delete</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-primary" id="update_item">Update</button>')
             $("legend").html('<div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Well done!</strong> Successfully completed</div>')
-            console.log("Succesfully created...")
+            console.log("Succesfully updated...")
+            x = ()=>{$('#list-'+parent_id).addClass('active in')}
+            x()
         },
         error: function(result){
             $("legend").html('<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Oh snap!</strong> Something went wrong...</div>')
-            console.log("Failed to create...")
+            console.log("Failed to update...")
         }
     });
 });
@@ -187,6 +193,7 @@ $('body').on('click','#create_list',(item)=>{
         data: list,
         success: function(result){
             load_lists()
+            $('#list-'+parent_id).addClass("active in")//<--not working
             $(".modal-footer").html("")
             $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_list">Delete</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
@@ -216,57 +223,57 @@ $('body').on('click','#create_item_form',(item)=>{
 });
 
 
-// $("document").ready(()=>{
-//     function getCookie(name) {
-//       var cookieValue = null;
+$("document").ready(()=>{
+    function getCookie(name) {
+      var cookieValue = null;
 
-//       if (document.cookie && document.cookie != '') {
-//         var cookies = document.cookie.split(';');
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
 
-//         for (var i = 0; i < cookies.length; i++) {
-//           var cookie = jQuery.trim(cookies[i]);
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
 
-//           // Does this cookie string begin with the name we want?
-//           if (cookie.substring(0, name.length + 1) == (name + '=')) {
-//             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//             break;
-//           }
-//         }
-//       }
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
 
-//       return cookieValue;
-//     }
+      return cookieValue;
+    }
 
-//     function csrfSafeMethod(method) {
-//       // these HTTP methods do not require CSRF protection
-//       return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-//     }
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
 
-//     function sameOrigin(url) {
-//       // test that a given url is a same-origin URL
-//       // url could be relative or scheme relative or absolute
-//       var host = document.location.host; // host + port
-//       var protocol = document.location.protocol;
-//       var sr_origin = '//' + host;
-//       var origin = protocol + sr_origin;
+    function sameOrigin(url) {
+      // test that a given url is a same-origin URL
+      // url could be relative or scheme relative or absolute
+      var host = document.location.host; // host + port
+      var protocol = document.location.protocol;
+      var sr_origin = '//' + host;
+      var origin = protocol + sr_origin;
 
-//       // Allow absolute or scheme relative URLs to same origin
-//       return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-//         (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-//         // or any other URL that isn't scheme relative or absolute i.e relative.
-//         !(/^(\/\/|http:|https:).*/.test(url));
-//     }
+      // Allow absolute or scheme relative URLs to same origin
+      return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+        // or any other URL that isn't scheme relative or absolute i.e relative.
+        !(/^(\/\/|http:|https:).*/.test(url));
+    }
 
-//     var csrftoken = getCookie(window.drf.csrfCookieName);
+    var csrftoken = getCookie(window.drf.csrfCookieName);
 
-//     $.ajaxSetup({
-//       beforeSend: function(xhr, settings) {
-//         if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-//           // Send the token to same-origin, relative URLs only.
-//           // Send the token only if the method warrants CSRF protection
-//           // Using the CSRFToken value acquired earlier
-//           xhr.setRequestHeader(window.drf.csrfHeaderName, csrftoken);
-//         }
-//       }
-//     });
-// });
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+          // Send the token to same-origin, relative URLs only.
+          // Send the token only if the method warrants CSRF protection
+          // Using the CSRFToken value acquired earlier
+          xhr.setRequestHeader(window.drf.csrfHeaderName, csrftoken);
+        }
+      }
+    });
+});

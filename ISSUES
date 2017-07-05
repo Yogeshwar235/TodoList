@@ -1,11 +1,17 @@
 BACKEND
-	1. No authenticaton
-	2. uses csrf_exempt
+	1. No authenticaton :(
+	2. uses csrf_exempt <-- fixed 06/07/2017 02:18 - Yogeshwar
 
 Frontend
 	1. No Update and delete options for list
-	2. Create Doesn't work of List
+	2. Create Doesn't work of List <-- fixed 06/07/2017 02:18 - Yogeshwar
 	3. Delete doesn't work of item
-	4. Create Doesn't work of Item
-	5. Update doesn't work of Item
-	6. Id keeps popping up in every form which is not needed
+	4. Create Doesn't work of Item <-- fixed 06/07/2017 02:18 - Yogeshwar
+	5. Update doesn't work of Item <-- fixed 06/07/2017 02:18 - Yogeshwar
+	6. Id keeps popping up in every form which is not needed <-- fixed 06/07/2017 02:18 - Yogeshwar
+
+	New issues 06/07/2017 02:18 - Yogeshwar
+
+	7. On Create or Update whole lists are reloaded, this changes the state of *active list*
+		what does this affect: 
+				consecutive updates can't be done as parent is lost
