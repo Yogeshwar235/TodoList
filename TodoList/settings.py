@@ -75,18 +75,22 @@ WSGI_APPLICATION = 'TodoList.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "",
-        "USER":  '',
-        'PASSWORD': '',
-        'OPTIONS': {
-            'autocommit': True,
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': "",
+#         "USER":  '',
+#         'PASSWORD': '',
+#         'OPTIONS': {
+#             'autocommit': True,
+#         },
+#     }
+# }
 
+# Update database configuration with $DATABASE_URL.
+import dj_database_url
+
+DATABASES = { 'default': dj_database_url.config(conn_max_age=500) }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
