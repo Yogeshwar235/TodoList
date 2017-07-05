@@ -3,4 +3,4 @@ debug.log
 main_app/migrations/*
 venv
 **/*.pyc
-static
+staticfiles
