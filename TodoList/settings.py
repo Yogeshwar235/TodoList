@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'TodoList.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "todolistdb",
-        "USER":  'todolist',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "",
+        "USER":  '',
         'PASSWORD': '',
         'OPTIONS': {
             'autocommit': True,
