@@ -1,0 +1,16 @@
+.list-group.table-of-contents{
+	overflow: scroll;
+	height: 25em;
+}
+.list-group.table-of-contents::-webkit-scrollbar {
+	display: none;
+}
+#banner, .page-header.active, .page-header{
+	border-bottom: 0px;
+}
+.panel-title:hover{
+	cursor:default;
+}
+body::-webkit-scrollbar {
+	display: none;
+}

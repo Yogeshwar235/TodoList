@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>TodoApp</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">TodoApp</a>
+	    </div>
+
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+	        <li><a href="#">Account</a></li>
+	      </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	      	<li><a href="#">UserName</a></li>
+	        <li><a href="#">Logout</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	<div class="container">
+		<div class="page-header" id="banner">
+			<div class="row">
+			  <div class="col-lg-3 col-md-7 col-sm-6">
+			    <h1>TodoApp</h1>
+			    <p class="lead">The brave and the blue</p>
+			  </div>
+	        </div> 
+	        <div class="row">
+	          	<div class="col-lg-3 col-md-3 col-sm-4">
+		            <div class="list-group table-of-contents nav nav-tabs">
+					</div>
+	        	</div>
+	        	<div class="col-lg-6">
+					<div id="myitemset" class="tab-content">
+	            	</div>
+				</div>
+	    	</div>
+		</div>
+		<div id="item-modal" class="modal fade">
+	        <div class="modal-dialog modal-lg">
+	          <div class="modal-content">
+	            <div class="modal-header">
+	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	              <h4 class="modal-title">Fill in</h4>
+	            </div>
+	            <div class="modal-body">
+	              <form class="form-horizontal">
+						<fieldset>
+							<legend>Item</legend>
+                            <div class="form-group" id="id_col">
+							  <label class="col-lg-2 control-label" for="idField">Id</label>
+							  <div class="col-lg-10">
+							  	<input class="form-control" id="idField" type="text">
+							  </div>
+							</div>
+							<div class="form-group" id="name_col">
+							  <label class="col-lg-2 control-label" for="focusedInput">Name</label>
+							  <div class="col-lg-10">
+							  	<input class="form-control" id="focusedInput" type="text">
+							  </div>
+							</div>
+						    <div class="form-group" id="desc_col">
+						      <label for="textArea" class="col-lg-2 control-label">Description</label>
+						      <div class="col-lg-10">
+						        <textarea class="form-control" rows="3" id="textArea"></textarea>
+						      </div>
+						    </div>
+							<div class="form-group" id="check_col">
+							  <label class="col-lg-2 control-label" for="checkbox">Completed</label>
+							  <div class="col-lg-10">
+							  	<input id="checkbox" type="checkbox">
+							  </div>
+							</div>
+						    <div class="form-group" id="date_col">
+						        <label class="col-lg-2 control-label" for="date">Due date</label>
+						        <div class="col-lg-10 date">
+						            <div class="input-group input-append date" id="datePicker">
+						                <input type="text" class="form-control" id="date" />
+						                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+						            </div>
+						        </div>
+						    </div>
+						</fieldset>
+					</form>
+	            </div>
+	            <div class="modal-footer">
+				</div>
+	          </div>
+	        </div>
+	    </div>
+	</div>
+<!--     <script>
+        window.drf = {
+          csrfHeaderName: "X-CSRFTOKEN",
+          csrfCookieName: "csrftoken"
+        };
+    </script> -->
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="{% static 'custom.js' %}"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css"/>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+</body>
+</html>
