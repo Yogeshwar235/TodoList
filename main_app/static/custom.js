@@ -182,6 +182,29 @@ $('body').on('click','#update_item',(item)=>{
     });
 });
 
+$('body').on('click','#delete_item',(item)=>{
+    parent_id = $(".tab-pane.fade.active.in").prop('id').split('-')[1]
+    id = $("#id_col > div > input").val()
+    $.ajax("api/lists/"+parent_id+"/items/"+id+"/",{
+        type: "DELETE",
+        success: function(result){
+            load_lists()
+            console.log("parent - "+parent_id)
+            // $('#list-'+parent_id).toggleClass('active in')//<--not working
+            $('.modal-body').addClass('hidden')
+            $(".modal-footer").html("")
+            $("legend").html('<div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Well done!</strong> Successfully completed</div>')
+            console.log("Succesfully updated...")
+            x = ()=>{$('#list-'+parent_id).addClass('active in')}
+            x()
+        },
+        error: function(result){
+            $("legend").html('<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Oh snap!</strong> Something went wrong...</div>')
+            console.log("Failed to update...")
+        }
+    });
+});
+
 $('body').on('click','#create_list',(item)=>{
     name = $("#name_col > div > input").val()
     description = $("#desc_col > div > textarea").val()
@@ -193,7 +216,7 @@ $('body').on('click','#create_list',(item)=>{
         data: list,
         success: function(result){
             load_lists()
-            $('#list-'+parent_id).addClass("active in")//<--not working
+            // $('#list-'+parent_id).addClass("active in")//<--not working
             $(".modal-footer").html("")
             $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_list">Delete</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
