@@ -191,18 +191,20 @@ $('body').on('click','#delete_item',(item)=>{
         type: "DELETE",
         success: function(result){
             load_lists()
-            console.log("parent - "+parent_id)
-            // $('#list-'+parent_id).toggleClass('active in')//<--not working
-            $('.modal-body').addClass('hidden')
-            $(".modal-footer").html("")
             $("legend").html('<div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Well done!</strong> Successfully completed</div>')
-            console.log("Succesfully updated...")
-            x = ()=>{$('#list-'+parent_id).addClass('active in')}
-            x()
+            console.log("parent - "+parent_id)
+            $("#name_col > div > input").val("");
+            $("#desc_col > div > textarea").val("");
+            $("#check_col > div > input").prop('checked', false);
+            $("#date_col > div > div > input").val("");
+            $(".modal-footer").html("")
+            $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
+            $(".modal-footer").append('<button type="button" class="btn btn-primary" id="create_item">Create</button>')
+            console.log("Succesfully deleted...")
         },
         error: function(result){
             $("legend").html('<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Oh snap!</strong> Something went wrong...</div>')
-            console.log("Failed to update...")
+            console.log("Failed to deleted...")
         }
     });
 });
