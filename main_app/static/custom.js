@@ -106,15 +106,16 @@ $('body').on('click','#myitemset > .tab-pane.fade.active.in > .list-group.table-
       $("#desc_col > div > textarea").val(item.description);
       $("#check_col > div > input").prop('checked', item.completed);
       $("#date_col > div > div > input").val(item.due_date);
-    });
-    $("#check_col").show()
-    $("legend").html("Item")
-    $("#date_col > label").html("Due date")
-    $(".modal-footer").html("")
-    $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_item">Delete</button>')
-    $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
-    $(".modal-footer").append('<button type="button" class="btn btn-primary" id="update_item">Update</button>')
-    $("#item-modal").modal();
+
+      $("#check_col").show()
+      $("legend").html("Item")
+      $("#date_col > label").html("Due date")
+      $(".modal-footer").html("")
+      $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_item">Delete</button>')
+      $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
+      $(".modal-footer").append('<button type="button" class="btn btn-primary" id="update_item">Update</button>')
+      $("#item-modal").modal();
+      });
 });
 
 $('body').on('click','#create_list_form',(item)=>{
