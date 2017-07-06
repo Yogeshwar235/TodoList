@@ -67,6 +67,7 @@ function load_lists(){
   });
 }
 function load_items(lists_store){
+  var active_list_set = $(".tab-pane.fade.active.in")
   $('#myitemset').html("");
   $.each(lists_store,function(id,list){
       $('<div/>',{
@@ -91,6 +92,10 @@ function load_items(lists_store){
         $("#list-"+list.id+".tab-pane.fade").append("<div class='col-lg-2'><button type='button' class='btn btn-info' id='create_item_form'>Add Item</button></div>");
         }
     });
+  if(active_list_set.length==1){//important to maintain state after update delete operations on items
+    id = active_list_set[0].id.split('-')[1]
+    $('#list-'+id).addClass("active in")
+  }
 }
 $('body').on('click','#myitemset > .tab-pane.fade.active.in > .list-group.table-of-contents > .list-group-item',(item)=>{
     console.log(item.target.id);
@@ -166,16 +171,12 @@ $('body').on('click','#update_item',(item)=>{
         data: item,
         success: function(result){
             load_lists()
-            console.log("parent - "+parent_id)
-            // $('#list-'+parent_id).toggleClass('active in')//<--not working
             $(".modal-footer").html("")
             $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_item">Delete</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-primary" id="update_item">Update</button>')
             $("legend").html('<div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Well done!</strong> Successfully completed</div>')
             console.log("Succesfully updated...")
-            x = ()=>{$('#list-'+parent_id).addClass('active in')}
-            x()
         },
         error: function(result){
             $("legend").html('<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Oh snap!</strong> Something went wrong...</div>')
@@ -192,7 +193,6 @@ $('body').on('click','#delete_item',(item)=>{
         success: function(result){
             load_lists()
             $("legend").html('<div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Well done!</strong> Successfully completed</div>')
-            console.log("parent - "+parent_id)
             $("#name_col > div > input").val("");
             $("#desc_col > div > textarea").val("");
             $("#check_col > div > input").prop('checked', false);
@@ -220,7 +220,6 @@ $('body').on('click','#create_list',(item)=>{
         data: list,
         success: function(result){
             load_lists()
-            // $('#list-'+parent_id).addClass("active in")//<--not working
             $(".modal-footer").html("")
             $(".modal-footer").append('<button type="button" class="btn btn-danger col-lg-2" id="delete_list">Delete</button>')
             $(".modal-footer").append('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
