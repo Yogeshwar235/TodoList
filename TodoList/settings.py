@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.urls import reverse_lazy
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
 ROOT_URLCONF = 'TodoList.urls'
@@ -75,22 +78,18 @@ WSGI_APPLICATION = 'TodoList.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': "",
-#         "USER":  '',
-#         'PASSWORD': '',
-#         'OPTIONS': {
-#             'autocommit': True,
-#         },
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "todolistdb",
+        "USER":  'todolist',
+        'PASSWORD': '',
+        'OPTIONS': {
+            'autocommit': True,
+        },
+    }
+}
 
-# Update database configuration with $DATABASE_URL.
-import dj_database_url
-
-DATABASES = { 'default': dj_database_url.config(conn_max_age=500) }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -161,3 +160,16 @@ LOGGING = {
         },
     },
 }
+
+ROLLBAR = {
+    'access_token': 'f2d597b29eee48d3a38d1c15e8108b24',
+    'environment': 'development' if DEBUG else 'production',
+    'root': BASE_DIR,
+}
+import rollbar
+rollbar.init(**ROLLBAR)
+
+LOGOUT_REDIRECT_URL = reverse_lazy("rest_framework:login")
+LOGIN_REDIRECT_URL = reverse_lazy("main_app:home")
+
+

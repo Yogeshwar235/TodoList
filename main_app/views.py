@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import logging
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from main_app.models import TodoList, TodoItem
-from main_app.serializers import TodoListSerializer, TodoItemSerializer
+from main_app.serializers import TodoListSerializer, TodoItemSerializer, UserSerializer
+from django.contrib.auth.models import User
+
 
 def home(request):
-    return render(request, "index.html")
+    if permissions.is_authenticated(request.user):
+        return render(request, "index.html", context={"user": request.user})
+    return redirect('rest_framework:login')
 
 
 # @method_decorator(csrf_exempt, name='dispatch')
@@ -25,16 +24,17 @@ class TodoListList(APIView):
     """
     List all snippets, or create a new snippet.
     """
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get(self, request, format=None):
-        todo_lists = TodoList.objects.all()
+        todo_lists = TodoList.objects.filter(owner=request.user)
         serializer = TodoListSerializer(todo_lists, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        logging.debug(request.data)
         serializer = TodoListSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -44,9 +44,14 @@ class TodoListDetail(APIView):
     """
     Retrieve, update or delete a TodoList instance.
     """
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_object(self, pk):
         try:
-            return TodoList.objects.get(pk=pk)
+            todo_list = TodoList.objects.get(pk=pk)
+            if todo_list.owner is not self.request.user:
+                raise PermissionDenied()
+            return todo_list
         except TodoList.DoesNotExist:
             raise Http404
 
@@ -74,15 +79,25 @@ class TodoItemList(APIView):
     """
     List all snippets, or create a new snippet.
     """
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_todolist_object(self, list_pk):
+        try:
+            todo_list = TodoList.objects.get(pk=list_pk)
+            if todo_list.owner is not self.request.user:
+                raise PermissionDenied()
+            return todo_list
+        except TodoItem.DoesNotExist:
+            raise Http404
+
     def get(self, request, pk, format=None):
-        todo_list = TodoList.objects.get(pk=pk)
-        todo_items = TodoItem.objects.all().filter(todo_list=todo_list)
+        todo_list = self.get_todolist_object(list_pk=pk)
+        todo_items = TodoItem.objects.filter(todo_list=todo_list)
         serializer = TodoItemSerializer(todo_items, many=True)
         return Response(serializer.data)
 
     def post(self, request, pk, format=None):
-        logging.debug(request.data)
-        todo_list = TodoList.objects.get(pk=pk)
+        todo_list = self.get_todolist_object(list_pk=pk)
         serializer = TodoItemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(todo_list=todo_list)
@@ -95,6 +110,8 @@ class TodoItemDetail(APIView):
     """
     Retrieve, update or delete a TodoList instance.
     """
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_object(self, list_pk, item_pk):
         try:
             todo_list = TodoList.objects.get(pk=list_pk)
@@ -119,3 +136,15 @@ class TodoItemDetail(APIView):
         todo_item = self.get_object(list_pk, item_pk)
         todo_item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
