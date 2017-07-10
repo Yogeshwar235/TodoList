@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'p*&p4vfu@yw21re4^g_v)wlclsz8b-!^+-s=q8)wbdyz3omnu@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['todo-list007.herokuapp.com', '0.0.0.0']
 
@@ -74,22 +74,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TodoList.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "todolistdb",
-        "USER":  'todolist',
-        'PASSWORD': '',
-        'OPTIONS': {
-            'autocommit': True,
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': "",
+#         "USER":  '',
+#         'PASSWORD': '',
+#         'OPTIONS': {
+#             'autocommit': True,
+#         },
+#     }
+# }
 
+# Update database configuration with $DATABASE_URL.
+import dj_database_url
+
+DATABASES = { 'default': dj_database_url.config(conn_max_age=500) }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -172,4 +175,5 @@ rollbar.init(**ROLLBAR)
 LOGOUT_REDIRECT_URL = reverse_lazy("rest_framework:login")
 LOGIN_REDIRECT_URL = reverse_lazy("main_app:home")
 
+SECURE_SSL_REDIRECT = True
 
