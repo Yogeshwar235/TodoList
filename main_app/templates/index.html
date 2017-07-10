@@ -4,6 +4,23 @@
 <head>
 	<meta charset="utf-8">
 	<title>TodoApp</title>
+	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicon3/apple-icon-57x57.png' %}">
+	<link rel="apple-touch-icon" sizes="60x60" href="{% static 'favicon3/apple-icon-60x60.png' %}">
+	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicon3/apple-icon-72x72.png' %}">
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'favicon3/apple-icon-76x76.png' %}">
+	<link rel="apple-touch-icon" sizes="114x114" href="{% static 'favicon3/apple-icon-114x114.png' %}">
+	<link rel="apple-touch-icon" sizes="120x120" href="{% static 'favicon3/apple-icon-120x120.png' %}">
+	<link rel="apple-touch-icon" sizes="144x144" href="{% static 'favicon3/apple-icon-144x144.png' %}">
+	<link rel="apple-touch-icon" sizes="152x152" href="{% static 'favicon3/apple-icon-152x152.png' %}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon3/apple-icon-180x180.png' %}">
+	<link rel="icon" type="image/png" sizes="192x192"  href="{% static 'favicon3/android-icon-192x192.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon3/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="96x96" href="{% static 'favicon3/favicon-96x96.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon3/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'favicon3/manifest.json' %}">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="{% static 'favicon3/ms-icon-144x144.png' %}">
+	<meta name="theme-color" content="#ffffff">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
@@ -17,17 +34,17 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="#">TodoApp</a>
+	      <a class="navbar-brand">TodoApp</a>
 	    </div>
 
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+	        <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
 	        <li><a href="#">Account</a></li>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
-	      	<li><a href="#">UserName</a></li>
-	        <li><a href="#">Logout</a></li>
+	      	<li><a>{{ user.username }}</a></li>
+	        <li><a href="{% url 'rest_framework:logout' %}">Logout</a></li>
 	      </ul>
 	    </div>
 	  </div>
