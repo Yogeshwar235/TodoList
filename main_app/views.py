@@ -49,7 +49,7 @@ class TodoListDetail(APIView):
     def get_object(self, pk):
         try:
             todo_list = TodoList.objects.get(pk=pk)
-            if todo_list.owner is not self.request.user:
+            if todo_list.owner != self.request.user:
                 raise PermissionDenied()
             return todo_list
         except TodoList.DoesNotExist:
@@ -84,7 +84,7 @@ class TodoItemList(APIView):
     def get_todolist_object(self, list_pk):
         try:
             todo_list = TodoList.objects.get(pk=list_pk)
-            if todo_list.owner is not self.request.user:
+            if todo_list.owner != self.request.user:
                 raise PermissionDenied()
             return todo_list
         except TodoItem.DoesNotExist:
@@ -115,6 +115,8 @@ class TodoItemDetail(APIView):
     def get_object(self, list_pk, item_pk):
         try:
             todo_list = TodoList.objects.get(pk=list_pk)
+            if todo_list.owner != self.request.user:
+                raise PermissionDenied()
             return TodoItem.objects.filter(todo_list=todo_list).get(pk=item_pk)
         except TodoItem.DoesNotExist:
             raise Http404
